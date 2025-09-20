@@ -1,2 +1,3 @@
-# youtube-mod-menu
-A mod menu for Youtube wwith fun stuff
+# Youtube Mod Menu
+A mod menu for Youtube with fun things.
+
