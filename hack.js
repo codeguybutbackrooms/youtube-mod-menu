@@ -96,6 +96,10 @@
     const btnVideoPlay = document.createElement("button");
     btnVideoPlay.textContent = "Play";
     tabContainers.main.appendChild(btnVideoPlay);
+  
+    const btnAdBlock = document.createElement("button");
+    btnAdBlock.textContent = "Adblock";
+    tabContainers.main.appendChild(btnAdBlock);
 
     // Playback Rate Input (Main tab)
     const rateLabel = document.createElement("label");
@@ -165,7 +169,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.0";
+    creditP2.textContent = "YT Mod Menu v0.1";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
@@ -245,6 +249,44 @@
         const video = document.querySelector("video");
         if (video) video.play();
     });
+  
+    btnAdBlock.addEventListener("click", function() {
+        (() => {
+        // Ads id/class
+        const adSelectors = [
+            ".ytp-ad-module",               // video overlay ads
+            ".ytd-display-ad-renderer",     // suggested ads
+            ".ytd-banner-promo-renderer",   // banner ads
+            "#ad_creative",                 // creative ads
+            ".ytp-ad-player-overlay"        // overlay on player
+        ];
+
+        // funcion to let know is that an ad
+        function isAd(el) {
+            return adSelectors.some(sel => el.matches(sel) || el.closest(sel));
+        }
+
+        // Monitor to see if any ads appear
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(m => {
+                m.addedNodes.forEach(node => {
+                    if (!(node instanceof HTMLElement)) return;
+                    if (isAd(node)) {
+                        console.log("Adblock blocked 1 ad");
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        console.log("Ad monitor initialized. Any new ad will be logged");
+    })();
+    
+    }
 
     rateInput.addEventListener("input", function() {
         const video = document.querySelector("video");
@@ -362,6 +404,9 @@
             document.head.appendChild(style);
         }
     });
+
+
+
 
     // --- Append menu to body ---
     document.body.appendChild(menu);
