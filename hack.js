@@ -136,10 +136,6 @@
     btnEnvView.textContent = "Show video's view"
     tabContainers.env.appendChild(btnEnvView)
   
-    const btnEnvInv = document.createElement("button");
-    btnEnvInv.textContent = "Invert video's color"
-    tabContainers.env.appendChild(btnEnvInv)
-  
     const btnEnvChannel = document.createElement("button");
     btnEnvChannel.textContent = "Video's channel & avatar"
     tabContainers.env.appendChild(btnEnvChannel)
