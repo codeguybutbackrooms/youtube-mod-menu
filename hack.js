@@ -281,8 +281,7 @@
 
         console.log("Ad monitor initialized. Any new ad will be logged");
     })();
-    
-    }
+    })
 
     rateInput.addEventListener("input", function() {
         const video = document.querySelector("video");
