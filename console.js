@@ -145,14 +145,10 @@
     const btnFunInv = document.createElement("button");
     btnFunInv.textContent = "Invert video's color";
     tabContainers.fun.appendChild(btnFunInv);
-
-    const btnFunShakyIcon = document.createElement("button");
-    btnFunShakyIcon.textContent = "Shaky Youtube icon";
-    tabContainers.fun.appendChild(btnFunShakyIcon);
   
-    const btnFunShakyThumbnail = document.createElement("button");
-    btnFunShakyThumbnail.textContent = "Shaky Youtube Thumbnail";
-    tabContainers.fun.appendChild(btnFunShakyThumbnail);
+    const btnFunShaky = document.createElement("button");
+    btnFunShaky.textContent = "Shake shake shake";
+    tabContainers.fun.appendChild(btnFunShaky);
 
     const btnFunChangeIcon = document.createElement("button");
     btnFunChangeIcon.textContent = "Change YouTube icon";
@@ -190,7 +186,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.3";
+    creditP2.textContent = "YT Mod Menu v0.4";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
@@ -376,57 +372,46 @@
             isVideoInverted = false;
         }
     });
-  
-    btnFunShakyIcon.addEventListener("click", function() {
-        const logo = document.querySelector("yt-icon.ytd-logo");
-        if (!logo) return;
 
-        // Add keyframes if there isn't
-        if (!document.getElementById("yt-logo-shake-style")) {
-            const style = document.createElement("style");
-            style.id = "yt-logo-shake-style";
+    btnFunShaky.addEventListener("click", function() {
+        const style = document.createElement("style");
             style.textContent = `
-            @keyframes shake {
-                0% { transform: translate(1px, 1px) rotate(0deg); }
-                25% { transform: translate(-1px, -2px) rotate(-1deg); }
-                50% { transform: translate(-3px, 0px) rotate(1deg); }
-                75% { transform: translate(3px, 2px) rotate(0deg); }
-                100% { transform: translate(1px, -2px) rotate(-1deg); }
-            }
-            .shake {
-                animation: shake 0.5s infinite;
-            }`;
-            document.head.appendChild(style);
-         }
-
-        // Apply animation
-        logo.style.animation = "shake 0.5s infinite";
-    });
-
-    btnFunShakyThumbnail.addEventListener("click", function() {
-        // add css if there isn't
-        if (!document.getElementById("thumbnail-ytb-shorts-mod")) {
-            const style = document.createElement("style");
-            style.id = "thumbnail-ytb-shorts-mod";
-            style.textContent = `a
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-
-            yt-lockup-view-model img,
-            ytd-thumbnail img,
-            ytd-reel-shelf-renderer img,
-            ytm-shorts-lockup-view-model img,
-            #thumbnail img,
-            #avatar img {
-                animation: spin 3s linear infinite;
-                transform-origin: center center;
-            }
+                @keyframes shaky {
+                    0% { transform: translate(1px, 1px) rotate(0deg); }
+                    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+                    20% { transform: translate(-3px, 0px) rotate(1deg); }
+                    30% { transform: translate(3px, 2px) rotate(0deg); }
+                    40% { transform: translate(1px, -1px) rotate(1deg); }
+                    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+                    60% { transform: translate(-3px, 1px) rotate(0deg); }
+                    70% { transform: translate(3px, 1px) rotate(-1deg); }
+                    80% { transform: translate(-1px, -1px) rotate(1deg); }
+                    90% { transform: translate(1px, 2px) rotate(0deg); }
+                    100% { transform: translate(1px, -2px) rotate(-1deg); }
+                }
+                yt-icon.ytd-logo,
+                .yt-searchbox-input,
+                yt-button-shape,
+                ytd-notification-topbar-button-renderer,
+                .ytd-topbar-menu-button-renderer,
+                .ytd-video-owner-renderer,
+                .ytd-video-description-infocards-section-renderer,
+                .ytd-reel-shelf-renderer,
+                .img.ytCoreImageContentModeScaleAspectFill,
+                .yt-formatted-string,
+                .ytd-comment-view-model,
+                #additional-section,
+                #simple-box,
+                #player-full-bleed-container,
+                #subscribe-button,
+                #actions
+                {
+                    animation: shaky 0.5s infinite;
+                }
             `;
             document.head.appendChild(style);
-        }
     });
+
 
     btnFunChangeIcon.addEventListener("click", function() {
         const logo = document.querySelector("#logo-icon");
@@ -469,11 +454,16 @@
         if (e.key === "Enter") {
             const color = bgInput.value.trim();
             if (/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(color)) {
-                // đổi background cho các class/selector YouTube phổ biến
+                // đổi background cho các class/selector YouTube phổ biến + searchbox
                 const containers = document.querySelectorAll(
-                    "ytd-app, ytd-watch-flexy, #page-manager, ytd-masthead, #primary, #content"
+                    "ytd-app, ytd-watch-flexy, #page-manager, ytd-masthead, #primary, #content, .ytSearchboxComponentInputBox, .ytSearchboxComponentSearchButton, #cinematics"
                 );
+
                 containers.forEach(el => el.style.backgroundColor = color);
+
+                // riêng SVG icon trong search button có inline bg-color cũng phải đổi
+                const svgIcons = document.querySelectorAll(".ytSearchboxComponentSearchButton svg");
+                svgIcons.forEach(svg => svg.style.backgroundColor = color);
 
                 console.log("YouTube BG color applied:", color);
             } else {
@@ -481,6 +471,7 @@
             }
         }
     });
+
     // --- Append menu to body ---
     document.body.appendChild(menu);
 })();
