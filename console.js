@@ -158,6 +158,27 @@
     btnFunChangeIcon.textContent = "Change YouTube icon";
     tabContainers.fun.appendChild(btnFunChangeIcon);
 
+    const bgLabel = document.createElement("label");
+    bgLabel.style.cssText = "font-size:12px; margin-top:6px;";
+    bgLabel.textContent = "Set background color: ";
+
+    const bgInput = document.createElement("input");
+    bgInput.type = "text"; // nhập hex, ví dụ #ff0000
+    bgInput.value = "#191919"; // mặc định giống menu
+
+    Object.assign(bgInput.style, {
+        width: "80px",
+        background: "#111",
+        color: "#0f0",
+        border: "1px solid #555",
+        borderRadius: "6px",
+        padding: "3px",
+        marginLeft: "5px"
+    });
+
+    bgLabel.appendChild(bgInput);
+    tabContainers.fun.appendChild(bgLabel);
+ 
     // --- Credit Tab ---
     const creditP1 = document.createElement("p");
     creditP1.style.cssText = "margin:5px 0; font-size:14px;";
@@ -169,7 +190,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.2";
+    creditP2.textContent = "YT Mod Menu v0.3";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
@@ -442,6 +463,23 @@
 
         logo.appendChild(wrapper);
  
+    });
+  
+    bgInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            const color = bgInput.value.trim();
+            if (/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(color)) {
+                // đổi background cho các class/selector YouTube phổ biến
+                const containers = document.querySelectorAll(
+                    "ytd-app, ytd-watch-flexy, #page-manager, ytd-masthead, #primary, #content"
+                );
+                containers.forEach(el => el.style.backgroundColor = color);
+
+                console.log("YouTube BG color applied:", color);
+            } else {
+                console.log("Invalid hex color:", color);
+            }
+        }
     });
     // --- Append menu to body ---
     document.body.appendChild(menu);
