@@ -169,7 +169,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.1";
+    creditP2.textContent = "YT Mod Menu v0.2";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
