@@ -14,3 +14,6 @@ A mod menu for Youtube with fun things.
 - Deleted shaky youtube icon, combined with youtube thumbnail (now - "shake shake shake")
 - Shake shake shake will shake more and more stuff
 - Added custom background color for youtube
+### 0.5
+- Added more things that can shaky in shake shake shake
+- Added DVD
