@@ -153,6 +153,10 @@
     const btnFunChangeIcon = document.createElement("button");
     btnFunChangeIcon.textContent = "Change YouTube icon";
     tabContainers.fun.appendChild(btnFunChangeIcon);
+  
+    const btnFunDVD = document.createElement("button");
+    btnFunDVD.textContent = "DVD";
+    tabContainers.fun.appendChild(btnFunDVD);
 
     const bgLabel = document.createElement("label");
     bgLabel.style.cssText = "font-size:12px; margin-top:6px;";
@@ -186,7 +190,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.4";
+    creditP2.textContent = "YT Mod Menu v0.5";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
@@ -390,6 +394,7 @@
                     100% { transform: translate(1px, -2px) rotate(-1deg); }
                 }
                 yt-icon.ytd-logo,
+                #contents,
                 .yt-searchbox-input,
                 yt-button-shape,
                 ytd-notification-topbar-button-renderer,
@@ -449,6 +454,72 @@
         logo.appendChild(wrapper);
  
     });
+  
+    // Đăng ký feature DVD vào menu mod tổng
+    btnFunDVD.addEventListener("click", () => {
+        // --- DVD div ---
+        const dvdDiv = document.createElement("div");
+        dvdDiv.id = "dvd";
+        Object.assign(dvdDiv.style, {
+            position: "fixed",
+            left: "0px",
+            top: "0px",
+            height: "50px",
+            width: "100px",
+            mask: "url('https://upload.wikimedia.org/wikipedia/commons/9/9b/DVD_logo.svg')",
+            WebkitMask: "url('https://upload.wikimedia.org/wikipedia/commons/9/9b/DVD_logo.svg')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "75px",
+            backgroundPosition: "center",
+            zIndex: "999999", // nổi trên YouTube
+            pointerEvents: "none" // ko che click
+        });
+
+        document.body.appendChild(dvdDiv);
+
+    // --- DVD animation logic ---
+        let x = 0, y = 0, dirX = 1, dirY = 1;
+        const speed = 2;
+        const pallete = ["#ff8800", "#e124ff", "#6a19ff", "#ff2188", "#e1a5a5", "#9f99c3", "#5e1111", "#34a569", "#8f3d90", "#540849", "#2982c5", "#f5c600", "#9b4923", "#007291"];
+        let dvd = dvdDiv;
+        dvd.style.backgroundColor = pallete[0];
+        let prevColorChoiceIndex = 0;
+        const dvdWidth = dvd.clientWidth;
+        const dvdHeight = dvd.clientHeight;
+
+        function getNewRandomColor() {
+            const currentPallete = [...pallete];
+            currentPallete.splice(prevColorChoiceIndex, 1);
+            const colorChoiceIndex = Math.floor(Math.random() * currentPallete.length);
+            prevColorChoiceIndex = colorChoiceIndex < prevColorChoiceIndex ? colorChoiceIndex : colorChoiceIndex + 1;
+            return currentPallete[colorChoiceIndex];
+        }
+
+        function animate() {
+            const screenHeight = window.innerHeight;
+            const screenWidth = window.innerWidth;
+
+            if (y + dvdHeight >= screenHeight || y < 0) {
+                dirY *= -1;
+                dvd.style.backgroundColor = getNewRandomColor();
+            }
+            if (x + dvdWidth >= screenWidth || x < 0) {
+                dirX *= -1;
+                dvd.style.backgroundColor = getNewRandomColor();
+            }
+            x += dirX * speed;
+            y += dirY * speed;
+            dvd.style.left = x + "px";
+            dvd.style.top = y + "px";
+
+            if (document.body.contains(dvd)) {
+                requestAnimationFrame(animate);
+            }
+        }
+
+        requestAnimationFrame(animate);
+    });
+
   
     bgInput.addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
