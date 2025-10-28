@@ -17,3 +17,8 @@ A mod menu for Youtube with fun things.
 ### v0.5
 - Added more things that can shaky in shake shake shake
 - Added DVD
+### 0.6
+- New stuff in Shake shake shake
+- New feature: "Black-and-white video"
+- New feature: "Snowy Weather"
+- New feature: "Enable cinema mode"
