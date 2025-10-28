@@ -96,7 +96,7 @@
     const btnVideoPlay = document.createElement("button");
     btnVideoPlay.textContent = "Play";
     tabContainers.main.appendChild(btnVideoPlay);
-  
+
     const btnAdBlock = document.createElement("button");
     btnAdBlock.textContent = "Adblock";
     tabContainers.main.appendChild(btnAdBlock);
@@ -131,21 +131,37 @@
     const btnEnvMeta = document.createElement("button");
     btnEnvMeta.textContent = "See video's metadata";
     tabContainers.env.appendChild(btnEnvMeta);
-    
+
     const btnEnvView = document.createElement("button");
     btnEnvView.textContent = "Show video's view"
     tabContainers.env.appendChild(btnEnvView)
-  
+
     const btnEnvChannel = document.createElement("button");
     btnEnvChannel.textContent = "Video's channel & avatar"
     tabContainers.env.appendChild(btnEnvChannel)
 
+    const btnEnvCinema = document.createElement("button");
+    btnEnvCinema.textContent = "Enable cinema mode"
+    tabContainers.env.appendChild(btnEnvCinema)
 
     // --- Fun Tab ---
+
+    const h2funtab = document.createElement("h2");
+    h2funtab.textContent = "This has a lot of hacks btw";
+    tabContainers.fun.appendChild(h2funtab);
+
     const btnFunInv = document.createElement("button");
     btnFunInv.textContent = "Invert video's color";
     tabContainers.fun.appendChild(btnFunInv);
+
+    const btnFunGray = document.createElement("button");
+    btnFunGray.textContent = "Black-and-white video";
+    tabContainers.fun.appendChild(btnFunGray);
   
+    const btnFunSnowy = document.createElement("button");
+    btnFunSnowy.textContent = "Snowy Weather";
+    tabContainers.fun.appendChild(btnFunSnowy);
+
     const btnFunShaky = document.createElement("button");
     btnFunShaky.textContent = "Shake shake shake";
     tabContainers.fun.appendChild(btnFunShaky);
@@ -153,7 +169,7 @@
     const btnFunChangeIcon = document.createElement("button");
     btnFunChangeIcon.textContent = "Change YouTube icon";
     tabContainers.fun.appendChild(btnFunChangeIcon);
-  
+
     const btnFunDVD = document.createElement("button");
     btnFunDVD.textContent = "DVD";
     tabContainers.fun.appendChild(btnFunDVD);
@@ -178,7 +194,7 @@
 
     bgLabel.appendChild(bgInput);
     tabContainers.fun.appendChild(bgLabel);
- 
+
     // --- Credit Tab ---
     const creditP1 = document.createElement("p");
     creditP1.style.cssText = "margin:5px 0; font-size:14px;";
@@ -190,7 +206,7 @@
 
     const creditP2 = document.createElement("p");
     creditP2.style.cssText = "margin:5px 0; font-size:12px; color:#FF0000;";
-    creditP2.textContent = "YT Mod Menu v0.5";
+    creditP2.textContent = "YT Mod Menu v0.6";
     tabContainers.credit.appendChild(creditP2);
 
     // --- Apply Button Style ---
@@ -270,42 +286,42 @@
         const video = document.querySelector("video");
         if (video) video.play();
     });
-  
+
     btnAdBlock.addEventListener("click", function() {
         (() => {
-        // Ads id/class
-        const adSelectors = [
-            ".ytp-ad-module",               // video overlay ads
-            ".ytd-display-ad-renderer",     // suggested ads
-            ".ytd-banner-promo-renderer",   // banner ads
-            "#ad_creative",                 // creative ads
-            ".ytp-ad-player-overlay"        // overlay on player
-        ];
+            // Ads id/class
+            const adSelectors = [
+                ".ytp-ad-module", // video overlay ads
+                ".ytd-display-ad-renderer", // suggested ads
+                ".ytd-banner-promo-renderer", // banner ads
+                "#ad_creative", // creative ads
+                ".ytp-ad-player-overlay" // overlay on player
+            ];
 
-        // funcion to let know is that an ad
-        function isAd(el) {
-            return adSelectors.some(sel => el.matches(sel) || el.closest(sel));
-        }
+            // funcion to let know is that an ad
+            function isAd(el) {
+                return adSelectors.some(sel => el.matches(sel) || el.closest(sel));
+            }
 
-        // Monitor to see if any ads appear
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(m => {
-                m.addedNodes.forEach(node => {
-                    if (!(node instanceof HTMLElement)) return;
-                    if (isAd(node)) {
-                        console.log("Adblock blocked 1 ad");
-                    }
+            // Monitor to see if any ads appear
+            const observer = new MutationObserver(mutations => {
+                mutations.forEach(m => {
+                    m.addedNodes.forEach(node => {
+                        if (!(node instanceof HTMLElement)) return;
+                        if (isAd(node)) {
+                            console.log("Adblock blocked 1 ad");
+                        }
+                    });
                 });
             });
-        });
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
 
-        console.log("Ad monitor initialized. Any new ad will be logged");
-    })();
+            console.log("Ad monitor initialized. Any new ad will be logged");
+        })();
     })
 
     rateInput.addEventListener("input", function() {
@@ -329,20 +345,20 @@
         if (data) console.log("Full Metadata:", data);
         else console.log("No metadata found!");
     });
-  
+
     btnEnvView.addEventListener("click", function() {
         const data = document.querySelector("ytd-watch-flexy")?.data;
         if (data) {
-             const viewCount = data?.contents?.twoColumnWatchNextResults?.results?.results?.contents
+            const viewCount = data?.contents?.twoColumnWatchNextResults?.results?.results?.contents
                 ?.find(c => c.videoPrimaryInfoRenderer)
                 ?.videoPrimaryInfoRenderer?.viewCount?.videoViewCountRenderer?.viewCount?.simpleText;
-             console.log("View count:", viewCount || "Not found");
-         } else {
+            console.log("View count:", viewCount || "Not found");
+        } else {
             console.log("No data found!");
-         }
+        }
     });
-  
-  
+
+
     btnEnvChannel.addEventListener("click", function() {
         const data = document.querySelector("ytd-watch-flexy")?.data;
         if (!data) {
@@ -353,7 +369,7 @@
         const secondary = data?.contents?.twoColumnWatchNextResults?.results?.results?.contents
             ?.find(c => c.videoSecondaryInfoRenderer)?.videoSecondaryInfoRenderer;
 
-        const channelUrl = "https://youtube.com" + 
+        const channelUrl = "https://youtube.com" +
             (secondary?.owner?.videoOwnerRenderer?.title?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.canonicalBaseUrl || "");
 
         const avatarUrl = secondary?.owner?.videoOwnerRenderer?.thumbnail?.thumbnails?.slice(-1)[0]?.url;
@@ -362,8 +378,17 @@
         console.log("Avatar URL:", avatarUrl || "Not found");
     });
   
+    btnEnvCinema.addEventListener("click", function() {
+        ['#secondary', '#related', '#comments', '#below', '#guide'].forEach(sel => {
+  			const el = document.querySelector(sel);
+  			if (el) el.style.display = 'none';
+		});
+		document.body.style.background = 'black';
+		document.querySelector('ytd-watch-flexy').style.maxWidth = '100%';
+    });
+
     let isVideoInverted = false;
-  
+
     btnFunInv.addEventListener("click", function() {
         const video = document.querySelector("video");
         if (!video) return;
@@ -377,9 +402,17 @@
         }
     });
 
+    btnFunGray.addEventListener("click", function() {
+        document.querySelector('video').style.filter = 'grayscale(1)';
+    });
+  
+    btnFunSnowy.addEventListener("click", function() {
+        for(let i=0;i<50;i++){const s=document.createElement('div');Object.assign(s.style,{position:'fixed',top:'-10px',left:Math.random()*100+'%',width:'8px',height:'8px',background:'white',borderRadius:'50%',opacity:Math.random(),animation:`fall${i} ${3+Math.random()*5}s linear infinite`});document.body.appendChild(s);const st=document.createElement('style');st.textContent=`@keyframes fall${i}{0%{transform:translateY(0)}100%{transform:translateY(${innerHeight+20}px)}}`;document.head.appendChild(st);}
+    });
+
     btnFunShaky.addEventListener("click", function() {
         const style = document.createElement("style");
-            style.textContent = `
+        style.textContent = `
                 @keyframes shaky {
                     0% { transform: translate(1px, 1px) rotate(0deg); }
                     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -409,12 +442,15 @@
                 #simple-box,
                 #player-full-bleed-container,
                 #subscribe-button,
-                #actions
+                #actions,
+                #title,
+                #bottom-row,
+                #scroll-container
                 {
                     animation: shaky 0.5s infinite;
                 }
             `;
-            document.head.appendChild(style);
+        document.head.appendChild(style);
     });
 
 
@@ -429,7 +465,7 @@
             const bg = window.getComputedStyle(document.body).backgroundColor;
             const rgb = bg.match(/\d+/g)?.map(Number);
             if (!rgb) return false;
-            const brightness = (rgb[0]*299 + rgb[1]*587 + rgb[2]*114)/1000;
+            const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
             return brightness < 128;
         }
 
@@ -452,9 +488,9 @@
 
 
         logo.appendChild(wrapper);
- 
+
     });
-  
+
     // Đăng ký feature DVD vào menu mod tổng
     btnFunDVD.addEventListener("click", () => {
         // --- DVD div ---
@@ -477,8 +513,11 @@
 
         document.body.appendChild(dvdDiv);
 
-    // --- DVD animation logic ---
-        let x = 0, y = 0, dirX = 1, dirY = 1;
+        // --- DVD animation logic ---
+        let x = 0,
+            y = 0,
+            dirX = 1,
+            dirY = 1;
         const speed = 2;
         const pallete = ["#ff8800", "#e124ff", "#6a19ff", "#ff2188", "#e1a5a5", "#9f99c3", "#5e1111", "#34a569", "#8f3d90", "#540849", "#2982c5", "#f5c600", "#9b4923", "#007291"];
         let dvd = dvdDiv;
@@ -520,7 +559,7 @@
         requestAnimationFrame(animate);
     });
 
-  
+
     bgInput.addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
             const color = bgInput.value.trim();
